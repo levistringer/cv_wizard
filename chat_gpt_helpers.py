@@ -4,7 +4,13 @@ from dotenv import load_dotenv, find_dotenv
 # Read local .env file for API key
 _ = load_dotenv(find_dotenv())  
 
-openai.api_key = os.environ['OPENAI_API_KEY']
+
+from google.cloud import secretmanager
+client = secretmanager.SecretManagerServiceClient()
+openai_key = client.access_secret_version(request={"name": "projects/1067804712239/secrets/OPENAI_API_KEY/versions/2"}).payload.data.decode("UTF-8")
+
+# openai.api_key = os.environ['OPENAI_API_KEY']
+openai.api_key = openai_key
 
 def load_resume():
     # Load my resume from a text file
