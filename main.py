@@ -29,15 +29,10 @@ app.config['SECRET_KEY'] = os.environ['APP_SECRET_KEY']
 
 @app.route('/', methods=('GET', 'POST'))
 def home():
-    print('enters here')
-    print('request', request)
     if request.method == 'POST':
-
         prompt = request.form['prompt']
         res = {}
-
         res['answer'] = chat_gpt_helpers.generate_proposal(prompt)
-        print('Result', res['answer'])
         return jsonify(res), 200
 
     # conn = get_db_connection()
